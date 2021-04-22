@@ -1,6 +1,14 @@
 # GTA_Immobilier
-Simple Agence immobilier avec npc pour recevoir vos clefs du logement avec l'envois de la position du logement 
-WIP...
+Systeme immobilier avec npc pour recevoir vos clefs du logement avec l'envois de la destination du logement
+Pour le moment juste le logement est disponible WIP...
+
+## Todo :
+
+Garage . WIP
+Coffre . WIP
+Vestiaire . WIP
+Radio . WIP
+Business . WIP
 
 ## Screen :
 ![Superette](https://media.discordapp.net/attachments/700050943995281452/833825046560636938/218_20210419194940_1.png?width=948&height=519)
