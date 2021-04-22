@@ -1,5 +1,5 @@
 # GTA_Immobilier
-Systeme immobilier avec npc pour recevoir vos clefs du logement avec l'envois de la destination du logement
+Systeme Immobilier avec npc ( Une ou plusieur agence possible ) pour recevoir vos clefs du logement avec l'envois de la destination du logement
 Pour le moment juste le logement est disponible WIP...
 
 ## Todo :
