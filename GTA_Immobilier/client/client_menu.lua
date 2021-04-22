@@ -22,6 +22,7 @@ Citizen.CreateThread(function()
                 local plyCoords = GetEntityCoords(GetPlayerPed(-1), false)
                 local dist = GetDistanceBetweenCoords(plyCoords, sPed["x"], sPed["y"], sPed["z"], true)
                 local player = GetPlayerPed(-1)
+                local Blip = AddBlipForCoord(item.pos.x, item.pos.y, item.pos.z)
 
                 if dist <= 6.0 then
                     Duree = 0
@@ -38,7 +39,8 @@ Citizen.CreateThread(function()
                                 exports.nCoreGTA:ShowNotification("Veuillez inserer un nombre correct !")
                                 return nil
                             end
---                            SetEntityCoords(player, tpZone.pos.x, tpZone.pos.y, tpZone.pos.z)
+                            SetBlipColour(Blip, 83)
+                            SetBlipRoute(Blip, true)
                             TriggerServerEvent("GTASuperette:RecevoirItem", quantityItems, itemName, prix)
                        
                         end});
@@ -54,6 +56,8 @@ Citizen.CreateThread(function()
                 local sPed = Config.Locations[shop]["sPed"]
                 local plyCoords = GetEntityCoords(GetPlayerPed(-1), false)
                 local dist = GetDistanceBetweenCoords(plyCoords, sPed["x"], sPed["y"], sPed["z"], true)
+                local player = GetPlayerPed(-1)
+                local Blip = AddBlipForCoord(item.pos.x, item.pos.y, item.pos.z)
 
                 if dist <= 5.0 then
                     for _, v in pairs(item.itemNameAppart) do
@@ -69,7 +73,8 @@ Citizen.CreateThread(function()
                                 exports.nCoreGTA:ShowNotification("Veuillez inserer un nombre correct !")
                                 return nil
                             end
-                
+                            SetBlipColour(Blip, 83)
+                            SetBlipRoute(Blip, true)
                             TriggerServerEvent("GTASuperette:RecevoirItem", quantityItems, itemName, prix)
                         end});
                     end
@@ -85,7 +90,7 @@ Citizen.CreateThread(function()
                 local plyCoords = GetEntityCoords(GetPlayerPed(-1), false)
                 local dist = GetDistanceBetweenCoords(plyCoords, sPed["x"], sPed["y"], sPed["z"], true)
                 local player = GetPlayerPed(-1)
-           --     local blip = AddBlipForCoord(item.pos.x, item.pos.y, item.pos.z)
+                local Blip = AddBlipForCoord(item.pos.x, item.pos.y, item.pos.z)
 
                 if dist <= 5.0 then
                     for _, v in pairs(item.itemNameMaison) do
@@ -101,7 +106,8 @@ Citizen.CreateThread(function()
                                 exports.nCoreGTA:ShowNotification("Veuillez inserer un nombre correct !")
                                 return nil
                             end
-                            AddBlipForCoord(item.pos.x, item.pos.y, item.pos.z)
+                            SetBlipColour(Blip, 83)
+                            SetBlipRoute(Blip, true)
                             TriggerServerEvent("GTASuperette:RecevoirItem", quantityItems, itemName, prix)
                         end});
                     end
