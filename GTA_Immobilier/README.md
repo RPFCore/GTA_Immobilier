@@ -9,8 +9,6 @@ WIP...
 ### Requirements
 * Ninja Source
   * [nCoreGTA](https://github.com/NinjaSourceV2/nCoreGTA)
-* GTA_Apparts
-
 
 ## Installation
 - Ajouté le dossier GTA_Immobilier dans vos resource, puis ajouté le a la liste de votre server.cfg.
