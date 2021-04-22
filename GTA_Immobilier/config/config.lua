@@ -7,7 +7,7 @@ Config = {
     Locations = {
         [1] = {
             ["sPed"] = {
-                ["x"] = 0.0, ["y"] = 0.0, ["z"] = 0.0, ["h"] = 0.0 ----  you need change x,y,z pnj for buy
+                ["x"] = 0.0, ["y"] = 0.0, ["z"] = 0.0, ["h"] = 0.0 ----  you need change x,y,z pnj for buy one or more is possible
             },
             ["homeIn"] = {
                 ["x"] = 0.0, ["y"] = 0.0, ["z"] = 0.0, ["h"] = 0.0 ---- Out marker
@@ -38,7 +38,7 @@ Config = {
 
         [2] = {
             ["sPed"] = {
-                ["x"] = 0.0, ["y"] = 0.0, ["z"] = 0.0, ["h"] = 0.0 ----  you need change x,y,z pnj for buy
+             --   ["x"] = 0.0, ["y"] = 0.0, ["z"] = 0.0, ["h"] = 0.0 ----  you need change x,y,z pnj for buy
             },
             ["homeIn"] = {
                 ["x"] = 0.0, ["y"] = 0.0, ["z"] = 0.0, ["h"] = 0.0 ---- Out marker
@@ -68,7 +68,7 @@ Config = {
         },
         [3] = {
             ["sPed"] = {
-                ["x"] = 0.0, ["y"] = 0.0, ["z"] = 0.0, ["h"] = 0.0 ----  you need change x,y,z pnj for buy
+              --  ["x"] = 0.0, ["y"] = 0.0, ["z"] = 0.0, ["h"] = 0.0 ----  you need change x,y,z pnj for buy
             },
             ["homeIn"] = {
                 ["x"] = 0.0, ["y"] = 0.0, ["z"] = 0.0, ["h"] = 0.0 ---- Out marker
