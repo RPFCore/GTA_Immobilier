@@ -7,7 +7,7 @@ Config = {
     Locations = {
         [1] = {
             ["sPed"] = {
-                ["x"] = -248.164, ["y"] = 2040.0004, ["z"] = 16.0, ["h"] = 0.0 ---- Sell storage in housse position
+                ["x"] = 0.0, ["y"] = 0.0, ["z"] = 0.0, ["h"] = 0.0 ---- you need change x,y,z pnj for buy
             },
             ["homeIn"] = {
                 ["x"] = 0.0, ["y"] = 0.0, ["z"] = 0.0, ["h"] = 0.0 ---- Out marker
@@ -16,7 +16,7 @@ Config = {
                 ["x"] = 0.0, ["y"] = 0.0, ["z"] = 0.0, ["h"] = 0.0 ---- I Marker
             },
             ["storage"] = {
-                ["x"] = -249.5049, ["y"] = 2034.0004, ["z"] = 15.0, ["h"] = 0.0 ---- Sell storage in housse position
+                ["x"] = 0.0, ["y"] = 0.0, ["z"] = 0.0, ["h"] = 0.0 ---- Sell storage in housse position
             },
             ["key"] = {
                ["clef"] = "Clef_1" --- name of item for key of home, this can tobe name of housse
