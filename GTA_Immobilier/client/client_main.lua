@@ -181,11 +181,19 @@ Citizen.CreateThread(function ()
                 if (IsControlJustReleased(0, 38) or IsControlJustReleased(0, 214)) then  
                   if (exports.nMenuPersonnel:getQuantity(key["clef"]) > 0) then
                     if IsPedInAnyVehicle(player, true) then
+                        DoScreenFadeOut(5000)
+                        Wait(5000)
                         SetEntityCoords(GetVehiclePedIsUsing(player), hOut["x"], hOut["y"], hOut["z"])
                         SetEntityHeading(GetVehiclePedIsUsing(player), hOut["h"])
+                        Wait(5000)
+                        DoScreenFadeIn(5000)
                     else
+                        DoScreenFadeOut(5000)
+                        Wait(5000)
                         SetEntityCoords(player, hOut["x"], hOut["y"], hOut["z"])
-                        SetEntityHeading(player, hOut["h"])     
+                        SetEntityHeading(player, hOut["h"]) 
+                        Wait(5000)
+                        DoScreenFadeIn(5000)    
                     end
                   else
                   TriggerEvent("rpf:notify", "CHAR_DEVIN", 8, 41, "Achat Appartement", "Disponible !", "Tu doit avoir la clef,\nTrouve les ~b~agences immobiliere en ville~w~ pour acheter...")
@@ -202,11 +210,19 @@ Citizen.CreateThread(function ()
 
                 if (IsControlJustReleased(0, 38) or IsControlJustReleased(0, 214)) then 
                     if IsPedInAnyVehicle(player, true) then
+                        DoScreenFadeOut(5000)
+                        Wait(5000)
                         SetEntityCoords(GetVehiclePedIsUsing(player),hIn["x"], hIn["y"], hIn["z"])
                         SetEntityHeading(GetVehiclePedIsUsing(player), hIn["h"])
+                        Wait(5000)
+                        DoScreenFadeIn(5000)    
                     else
+                        DoScreenFadeOut(5000)
+                        Wait(5000)
                         SetEntityCoords(player, hIn["x"], hIn["y"], hIn["z"])
                         SetEntityHeading(player, hIn["h"])
+                        Wait(5000)
+                        DoScreenFadeIn(5000)    
                     end
                 end
             end
