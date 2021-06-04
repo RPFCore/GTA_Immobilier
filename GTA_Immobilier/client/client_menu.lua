@@ -34,6 +34,7 @@ Citizen.CreateThread(function()
         RageUI.IsVisible(subStudio, function()
             for shop = 1, #Config.Locations do
                 local item = Config.Locations[shop]["clefs"]
+                local visit = Config.Locations[shop]["homeOut"]
                 local sPed = Config.Locations[shop]["sPed"]
                 local plyCoords = GetEntityCoords(GetPlayerPed(-1), false)
                 local dist = GetDistanceBetweenCoords(plyCoords, sPed["x"], sPed["y"], sPed["z"], true)
@@ -60,6 +61,15 @@ Citizen.CreateThread(function()
                             TriggerServerEvent("GTASuperette:RecevoirItem", quantityItems, itemName, prix)
                             SetDestinationCoordsLogemment(pos)
 
+                        end}); 
+                        RageUI.Button("Visiter", "Visiter le logement", {""}, true, { 
+                        onSelected = function()
+                        DoScreenFadeOut(5000)
+                        Wait(5000)
+                        SetEntityCoords(player, visit.x, visit.y, visit.z)
+                        Wait(5000)
+                        DoScreenFadeIn(5000)
+                        RageUI.CloseAll()
                         end});
                     end
                 end
@@ -70,6 +80,7 @@ Citizen.CreateThread(function()
         RageUI.IsVisible(subAppart, function()
             for shop = 2, #Config.Locations do
                 local item = Config.Locations[shop]["clefs"]
+                local visit = Config.Locations[shop]["homeOut"]
                 local sPed = Config.Locations[shop]["sPed"]
                 local plyCoords = GetEntityCoords(GetPlayerPed(-1), false)
                 local dist = GetDistanceBetweenCoords(plyCoords, sPed["x"], sPed["y"], sPed["z"], true)
@@ -97,6 +108,15 @@ Citizen.CreateThread(function()
                             SetDestinationCoordsLogemment(pos)
 
                         end});
+                        RageUI.Button("Visiter", "Visiter le logement", {""}, true, { 
+                        onSelected = function()
+                        DoScreenFadeOut(5000)
+                        Wait(5000)
+                        SetEntityCoords(player, visit.x, visit.y, visit.z)
+                        Wait(5000)
+                        DoScreenFadeIn(5000)
+                        RageUI.CloseAll()
+                        end});
                     end
                 end
             end
@@ -106,6 +126,7 @@ Citizen.CreateThread(function()
         RageUI.IsVisible(subMaison, function()
             for shop = 3, #Config.Locations do
                 local item = Config.Locations[shop]["clefs"]
+                local visit = Config.Locations[shop]["homeOut"]
                 local sPed = Config.Locations[shop]["sPed"]
                 local plyCoords = GetEntityCoords(GetPlayerPed(-1), false)
                 local dist = GetDistanceBetweenCoords(plyCoords, sPed["x"], sPed["y"], sPed["z"], true)
@@ -132,6 +153,15 @@ Citizen.CreateThread(function()
                             TriggerServerEvent("GTASuperette:RecevoirItem", quantityItems, itemName, prix)
                             SetDestinationCoordsLogemment(pos)
 
+                        end});
+                        RageUI.Button("Visiter", "Visiter le logement", {""}, true, { 
+                        onSelected = function()
+                        DoScreenFadeOut(5000)
+                        Wait(5000)
+                        SetEntityCoords(player, visit.x, visit.y, visit.z)
+                        Wait(5000)
+                        DoScreenFadeIn(5000)
+                        RageUI.CloseAll()
                         end});
                     end
                 end
