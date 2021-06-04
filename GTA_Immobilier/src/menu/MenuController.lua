@@ -2,7 +2,7 @@
 --- @author Dylan MALANDAIN
 --- @version 2.0.0
 --- @since 2020
-
+---
 --- RageUI Is Advanced UI Libs in LUA for make beautiful interface like RockStar GAME.
 ---
 ---
@@ -10,6 +10,7 @@
 --- Any use for commercial purposes is strictly prohibited and will be punished.
 ---
 --- @see RageUI
+---
 
 RageUI.LastControl = false
 
@@ -138,7 +139,7 @@ function RageUI.GoActionControl(Controls, Action)
                         end
                         Controls[Action or 'Left'].Pressed = false
                         if (Action ~= ControlActions[5]) then
-                            Citizen.Wait(10)
+                            Citizen.Wait(50)
                         end
                     end)
                     break
@@ -251,10 +252,7 @@ function RageUI.Controls()
                         if not Controls.Back.Pressed then
                             if IsDisabledControlJustPressed(Controls.Back.Keys[Index][1], Controls.Back.Keys[Index][2]) then
                                 Controls.Back.Pressed = true
-                                Citizen.CreateThread(function()
-                                    Citizen.Wait(175)
-                                    Controls.Down.Pressed = false
-                                end)
+                                Citizen.Wait(10)
                                 break
                             end
                         end

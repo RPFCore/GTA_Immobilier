@@ -20,8 +20,8 @@ local GridType = RageUI.Enum {
 
 local GridSprite = {
     [GridType.Default] = { Dictionary = "pause_menu_pages_char_mom_dad", Texture = "nose_grid", },
-    [GridType.Horizontal] = { Dictionary = "RageUI_", Texture = "horizontal_grid", },
-    [GridType.Vertical] = { Dictionary = "RageUI_", Texture = "vertical_grid", },
+    [GridType.Horizontal] = { Dictionary = "RageUI", Texture = "horizontal_grid", },
+    [GridType.Vertical] = { Dictionary = "RageUI", Texture = "vertical_grid", },
 }
 
 local Grid = {
@@ -89,7 +89,7 @@ local function UIGridPanel(Type, StartedX, StartedY, TopText, BottomText, LeftTe
                     X = math.round((CircleX - (CurrentMenu.X + Grid.Grid.X + (CurrentMenu.WidthOffset / 2) + 20) + (Grid.Circle.Width / 2)) / (Grid.Grid.Width - 40), 2)
                     Y = math.round((CircleY - (CurrentMenu.Y + Grid.Grid.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset + 20) + (Grid.Circle.Height / 2)) / (Grid.Grid.Height - 40), 2)
                     if (X ~= StartedX) and (Y ~= StartedY) then
-                        Action.onPositionChange(X, Y, (X * 2 - 1), (Y * 2 - 1))
+                        Action.onPositionChange(X, Y)
                     end
                     StartedX = X;
                     StartedY = Y;
@@ -106,7 +106,7 @@ local function UIGridPanel(Type, StartedX, StartedY, TopText, BottomText, LeftTe
                 local Audio = RageUI.Settings.Audio
                 RageUI.PlaySound(Audio[Audio.Use].Slider.audioName, Audio[Audio.Use].Slider.audioRef, true)
                 if (Action.onSelected ~= nil) then
-                    Action.onSelected(X, Y, (X * 2 - 1), (Y * 2 - 1));
+                    Action.onSelected(X, Y);
                 end
             end
 

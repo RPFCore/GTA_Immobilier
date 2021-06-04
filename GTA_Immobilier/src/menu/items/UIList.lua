@@ -112,9 +112,6 @@ function RageUI.List(Label, Items, Index, Description, Style, Enabled, Actions, 
                     error("UICheckBox Style is not a `table`")
                 end
 
-                LeftArrowHovered = RageUI.IsMouseInBounds(CurrentMenu.X + SettingsList.Text.X + CurrentMenu.WidthOffset - RightOffset + CurrentMenu.SafeZoneSize.X, CurrentMenu.Y + SettingsList.Text.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset + 2.5  + CurrentMenu.SafeZoneSize.Y , 15, 22.5)
-
-                RightArrowHovered = RageUI.IsMouseInBounds(CurrentMenu.X + SettingsList.Text.X + CurrentMenu.WidthOffset + CurrentMenu.SafeZoneSize.X - RightOffset - MeasureStringWidth(ListText, 0, SettingsList.Text.Scale), CurrentMenu.Y + SettingsList.Text.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset + 2.5 + CurrentMenu.SafeZoneSize.Y , 15, 22.5)
                 RageUI.ItemOffset = RageUI.ItemOffset + SettingsButton.Rectangle.Height
 
                 RageUI.ItemsDescription(CurrentMenu, Description, Selected);
@@ -152,10 +149,6 @@ function RageUI.List(Label, Items, Index, Description, Style, Enabled, Actions, 
                     if Submenu ~= nil and type(Submenu) == "table" then
                         RageUI.NextMenu = Submenu[Index]
                     end
-                elseif Selected then
-                    if(Actions.onActive ~= nil) then
-                        Actions.onActive()
-                    end 
                 end
             end
 

@@ -6,12 +6,28 @@ local prix = nil
 local itemName = " "
 local Duree = 0
 
+local function SetDestinationCoordsLogemment(pos)
+  for shop = 1, #Config.Locations do
+        local item = Config.Locations[shop]["clefs"]
+        local blip = AddBlipForCoord(pos["x"], pos["y"], pos["z"])  
+            SetBlipSprite(blip, 374)
+            SetBlipDisplay(blip, 4)
+            SetBlipScale(blip, 0.7)
+            SetBlipColour(blip, 24)
+            SetBlipRoute(blip, true)
+            SetBlipAsShortRange(blip, true)
+            BeginTextCommandSetBlipName("STRING")
+            AddTextComponentString("Votre habitation")
+            EndTextCommandSetBlipName(blip)
+   end
+end
+
 Citizen.CreateThread(function()
     while (true) do
         RageUI.IsVisible(mainMenu, function()
-            RageUI.Button('Studio', "", {}, true, {}, subStudio);
-            RageUI.Button('Appart', "", {}, true, {}, subAppart);
-            RageUI.Button('Maison', "", {}, true, {}, subMaison);
+            RageUI.Button('Studio', "Petit appartement", {}, true, {}, subStudio);
+            RageUI.Button('Appart', "Appartement de luxe", {}, true, {}, subAppart);
+            RageUI.Button('Maison', "Maison de luxe", {}, true, {}, subMaison);
         end, function()end)
 
         --> SubMenu studio : 
@@ -22,7 +38,6 @@ Citizen.CreateThread(function()
                 local plyCoords = GetEntityCoords(GetPlayerPed(-1), false)
                 local dist = GetDistanceBetweenCoords(plyCoords, sPed["x"], sPed["y"], sPed["z"], true)
                 local player = GetPlayerPed(-1)
-                local Blip = AddBlipForCoord(item.pos.x, item.pos.y, item.pos.z)
 
                 if dist <= 6.0 then
                     Duree = 0
@@ -31,18 +46,20 @@ Citizen.CreateThread(function()
                         for _, j in pairs(item.prix) do 
                             prix = j
                         end
+                        for _, i in pairs(item.pos) do 
+                            pos = i
+                        end
 
-                        RageUI.Button(v, "", {RightLabel = prix .. "~g~$"}, true, { 
+                        RageUI.Button(v, "Les premiers prix !", {RightLabel = prix .. "~g~$"}, true, { 
                         onSelected = function()
-                            local quantityItems =  InputNombre("Montant : ")
+                            local quantityItems =  InputNombre("Nombre de clef : ")
                             if tonumber(quantityItems) == nil then
                                 exports.nCoreGTA:ShowNotification("Veuillez inserer un nombre correct !")
                                 return nil
                             end
-                            SetBlipColour(Blip, 83)
-                            SetBlipRoute(Blip, true)
                             TriggerServerEvent("GTASuperette:RecevoirItem", quantityItems, itemName, prix)
-                       
+                            SetDestinationCoordsLogemment(pos)
+
                         end});
                     end
                 end
@@ -51,13 +68,12 @@ Citizen.CreateThread(function()
 
         --> SubMenu appart : 
         RageUI.IsVisible(subAppart, function()
-            for shop = 1, #Config.Locations do
+            for shop = 2, #Config.Locations do
                 local item = Config.Locations[shop]["clefs"]
                 local sPed = Config.Locations[shop]["sPed"]
                 local plyCoords = GetEntityCoords(GetPlayerPed(-1), false)
-                local dist = GetDistanceBetweenCoords(plyCoords, storage["x"], storage["y"], storage["z"], true)
+                local dist = GetDistanceBetweenCoords(plyCoords, sPed["x"], sPed["y"], sPed["z"], true)
                 local player = GetPlayerPed(-1)
-                local Blip = AddBlipForCoord(item.pos.x, item.pos.y, item.pos.z)
 
                 if dist <= 5.0 then
                     for _, v in pairs(item.itemNameAppart) do
@@ -65,17 +81,21 @@ Citizen.CreateThread(function()
                         for _, j in pairs(item.prix) do 
                             prix = j
                         end
+                        for _, i in pairs(item.pos) do 
+                            pos = i
+                        end
 
-                        RageUI.Button(v, "", {RightLabel = prix .. "~g~$"}, true, { 
+                        RageUI.Button(v, "De beau appartement déjà !", {RightLabel = prix .. "~g~$"}, true, { 
                         onSelected = function()
                             local quantityItems =  InputNombre("Montant : ")
                             if tonumber(quantityItems) == nil then
                                 exports.nCoreGTA:ShowNotification("Veuillez inserer un nombre correct !")
                                 return nil
                             end
-                            SetBlipColour(Blip, 83)
-                            SetBlipRoute(Blip, true)
+
                             TriggerServerEvent("GTASuperette:RecevoirItem", quantityItems, itemName, prix)
+                            SetDestinationCoordsLogemment(pos)
+
                         end});
                     end
                 end
@@ -84,13 +104,12 @@ Citizen.CreateThread(function()
 
         --> SubMenu Maison : 
         RageUI.IsVisible(subMaison, function()
-            for shop = 1, #Config.Locations do
+            for shop = 3, #Config.Locations do
                 local item = Config.Locations[shop]["clefs"]
                 local sPed = Config.Locations[shop]["sPed"]
                 local plyCoords = GetEntityCoords(GetPlayerPed(-1), false)
                 local dist = GetDistanceBetweenCoords(plyCoords, sPed["x"], sPed["y"], sPed["z"], true)
                 local player = GetPlayerPed(-1)
-                local Blip = AddBlipForCoord(item.pos.x, item.pos.y, item.pos.z)
 
                 if dist <= 5.0 then
                     for _, v in pairs(item.itemNameMaison) do
@@ -98,17 +117,21 @@ Citizen.CreateThread(function()
                         for _, j in pairs(item.prix) do 
                             prix = j
                         end
+                        for _, i in pairs(item.pos) do 
+                            pos = i
+                        end
 
-                        RageUI.Button(v, "", {RightLabel = prix .. "~g~$"}, true, { 
+                        RageUI.Button(v, "Pour les villa de Luxe !", {RightLabel = prix .. "~g~$"}, true, { 
                         onSelected = function()
                             local quantityItems =  InputNombre("Montant : ")
                             if tonumber(quantityItems) == nil then
                                 exports.nCoreGTA:ShowNotification("Veuillez inserer un nombre correct !")
                                 return nil
                             end
-                            SetBlipColour(Blip, 83)
-                            SetBlipRoute(Blip, true)
+
                             TriggerServerEvent("GTASuperette:RecevoirItem", quantityItems, itemName, prix)
+                            SetDestinationCoordsLogemment(pos)
+
                         end});
                     end
                 end

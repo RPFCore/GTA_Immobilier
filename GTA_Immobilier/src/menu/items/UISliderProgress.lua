@@ -175,10 +175,6 @@ function RageUI.SliderProgress(Label, ProgressStart, ProgressMax, Description, S
                         Actions.onSelected(ProgressStart);
                     end
                     RageUI.PlaySound(Audio[Audio.Use].Select.audioName, Audio[Audio.Use].Select.audioRef)
-                elseif Selected then
-                    if(Actions.onActive ~= nil) then
-                        Actions.onActive()
-                    end 
                 end
             end
 

@@ -105,10 +105,6 @@ function RageUI.UISliderHeritage(Label, ItemIndex, Description, Actions, Value)
                         Actions.onSelected(ItemIndex / 10, ItemIndex);
                     end
                     RageUI.PlaySound(Audio[Audio.Use].Select.audioName, Audio[Audio.Use].Select.audioRef, false)
-                elseif Selected then
-                    if(Actions.onActive ~= nil) then
-                        Actions.onActive()
-                    end 
                 end
 
             end

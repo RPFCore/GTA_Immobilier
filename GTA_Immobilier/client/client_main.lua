@@ -9,7 +9,8 @@ AddEventHandler("GTASuperette:Achat",  function(quantityItems, nameItem)
     end
 
     PlaySoundFrontend(-1, "Hack_Success", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", false)
-    exports.nCoreGTA:Ninja_Core_PedsText("~b~Vendeur ~w~: ~g~Merci !", 1000)
+    TriggerEvent("NUI-Notification", {"Un point sur la carte vous indique votre logement !", "warning"})
+ --   exports.nCoreGTA:Ninja_Core_PedsText("~b~Vendeur ~w~: ~g~Merci !", 1000)
 end)
 
 RegisterNetEvent("GTASuperette:AchatFail")
@@ -20,7 +21,8 @@ AddEventHandler("GTASuperette:AchatFail",  function()
     end
     
     PlaySoundFrontend(-1, "Hack_Failed", "DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS", false)
-    exports.nCoreGTA:Ninja_Core_PedsText("~b~Vendeur ~w~: ~r~A bientôt !", 1000)
+    TriggerEvent("NUI-Notification", {"A bientôt !", "warning"})
+  --  exports.nCoreGTA:Ninja_Core_PedsText("~b~Vendeur ~w~: ~r~A bientôt !", 1000)
 end)
 
 
