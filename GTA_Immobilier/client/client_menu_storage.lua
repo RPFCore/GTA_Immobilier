@@ -1,78 +1,76 @@
+local CARITEMS = {}
+local PLAYTEMS = {}
+local lastPlate = nil
+local Duree = 1000
+local index = 1
+local maxItems = 0
 
-----> MENU :
+function getPods()
+    local pods = 0
+    for _, v in pairs(CARITEMS) do
+        pods = pods + v.quantity
+    end
+    return pods
+end
+
+RegisterNetEvent("GTA_Coffre:GetPlayerInventory")
+AddEventHandler("GTA_Coffre:GetPlayerInventory", function(items)
+    if items then
+        PLAYTEMS = items
+    else
+        PLAYTEMS = {}
+    end
+end)
+
+RegisterNetEvent("GTA_Coffre:GetInventoryTrunk")
+AddEventHandler("GTA_Coffre:GetInventoryTrunk", function(items)
+    if items then
+        CARITEMS = items
+    else
+        CARITEMS = {}
+    end
+end)
+
+
+--MENU :
+
+local deposerMenu = RageUI.CreateSubMenu(mainStockage, "Déposer", "Items: " .. (getPods()) .. "/" .. 100)
 mainStockage = RageUI.CreateMenu("Stockage", "Coffre habitation.")
-local subStockage = RageUI.CreateSubMenu(mainStockage, "Stockage", "Deposer ou retirer.")
 
 local index = 1
 local secondIndex = 1
 --> Main Menu :
 function OnMenuStockage()
     RageUI.IsVisible(mainStockage, function()
-        RageUI.Button("Vérifier le stock", "", {}, true, {onSelected = function() TriggerServerEvent("GTA_Immobilier:GetAllStock") end}, subStockage)
+        RageUI.Button("Vérifier le stock", "", {}, true, {onSelected = function() end}, subStockage)
     end, function()end)
 
 
-    RageUI.IsVisible(subStockage, function()
-         for k, v in pairs(Config.Stockage) do 
-            if (v.argent >= 0) then
-                RageUI.List('💵  Argent Propre ~g~' ..v.argent .. "$", {
-                    { Name = "Récuperer" },
-                    { Name = "Déposer" }
-                }, index, "", {}, true, {
-                    onListChange = function(Index, Item) index = Index; end,
-        
-                    onSelected = function(Index, Item)
-                        if Index == 1 then 
-                            local qty = InputNombre("Montant à retirer")
-                            if qty == nil then
-                                TriggerEvent("NUI-Notification", {"Quantité non valide.", "warning", "fa fa-exclamation-circle fa-2x", "warning"})
-                            else
-                                TriggerServerEvent('GTA_Immobilier:RetirerArgentPropreStockage', tonumber(qty))
-                            end
-                            RageUI.CloseAll(true)
-                        elseif Index == 2 then 
-                            local qty = InputNombre("Montant à déposer")
-                            if qty == nil then
-                                TriggerEvent("NUI-Notification", {"Quantité non valide.", "warning", "fa fa-exclamation-circle fa-2x", "warning"})
-                            else
-                                TriggerServerEvent('GTA_Immobilier:DeposerArgentPropreStockage', tonumber(qty))
-                            end
-                            RageUI.CloseAll(true)
-                        end
-                    end,
-                })
-            end
+    RageUI.IsVisible(deposerMenu, function()
+         for k, v in pairs(CARITEMS) do 
+            local arg = {k, v.libelle, v.quantity }
+            if (v.quantity > 0) then
+                    RageUI.Button("~b~"..v.libelle.. " ~g~" .. RoundNumber(v.quantity), "", {}, true, {onSelected = function()
+                        RemoveItem(arg)
+                        RageUI.CloseAll(true)
+                    end})
+                end
 
-            if (v.argent_sale >= 0) then
-                RageUI.List('💴   Argent sale ~r~' ..v.argent_sale .. "$", {
-                    { Name = "Récuperer" },
-                    { Name = "Déposer" }
-                }, secondIndex or 1, "", {}, true, {
-                    onListChange = function(Index, Item) secondIndex = Index; end,
-        
-                    onSelected = function(Index, Item)
-                        if Index == 1 then 
-                            local qty = InputNombre("Montant à retirer")
-                            if qty == nil then
-                                TriggerEvent("NUI-Notification", {"Quantité non valide.", "warning", "fa fa-exclamation-circle fa-2x", "warning"})
-                            else
-                                TriggerServerEvent('GTA_Immobilier:RetirerArgentSaleStockage', tonumber(qty))
-                            end
-                            RageUI.CloseAll(true)
-                        elseif Index == 2 then 
-                            local qty = InputNombre("Montant à déposer")
-                            if qty == nil then
-                                TriggerEvent("NUI-Notification", {"Quantité non valide.", "warning", "fa fa-exclamation-circle fa-2x", "warning"})
-                            else
-                                TriggerServerEvent('GTA_Immobilier:DeposerArgentSaleStockage', tonumber(qty))
-                            end
-                            RageUI.CloseAll(true)
-                        end
-                    end,
-                })
-            end
         end
     end, function()end)
+
+     RageUI.IsVisible(subStockage, function()
+            for k, v in pairs(PLAYTEMS) do 
+                local arg = {k, v.libelle, v.quantity }
+
+                if (v.quantity > 0) then
+                    RageUI.Button("~b~"..v.libelle.. " ~g~" .. RoundNumber(v.quantity), "", {}, true, {onSelected = function()
+                        AddItem(arg)
+                        RageUI.CloseAll(true)
+                    end})
+                end
+            end
+        end, function()end)
 end
 
 
@@ -94,12 +92,12 @@ Citizen.CreateThread(function()
                 end
            
                if (IsControlJustReleased(0, 38) or IsControlJustReleased(0, 214)) then 
-                    RageUI.Visible(mainStockage, not RageUI.Visible(subStockage))
+                    RageUI.Visible(mainStockage, not RageUI.Visible(deposerMenu))
                end
             end
         end
 
-        if RageUI.Visible(mainStockage) or RageUI.Visible(subStockage) == true then 
+        if RageUI.Visible(mainStockage) or RageUI.Visible(deposerMenu) == true then 
             DisableControlAction(0, 140, true) --> DESACTIVER LA TOUCHE POUR PUNCH
             DisableControlAction(0, 172,true) --DESACTIVE CONTROLL HAUT  
         end
@@ -115,3 +113,99 @@ function GetPlayers()
     end
     return players
 end
+
+RoundNumber = function(value, numDecimalPlaces)
+    return tonumber(string.format("%." .. (numDecimalPlaces or 0) .. "f", value))
+end
+
+function RemoveItem(arg)
+    local id = tonumber(arg[1])
+    local lib = arg[2]
+    local qtymax = arg[3]
+    local vehFront = VehicleInFront()
+    if vehFront > 0 then
+        local qty = DisplayInput()
+        if (type(qty) ~= "number") then
+            TriggerEvent("NUI-Notification", {"Veuillez saisir un nombre correct.", "warning"})
+            return false
+        end
+        if tonumber(qty) <= tonumber(qtymax) and tonumber(qty) > -1 then
+            TriggerServerEvent("GTA_Coffre:looseItem", GetVehicleNumberPlateText(vehFront), id, tonumber(qty))
+        else
+            TriggerEvent("NUI-Notification", {"Il n'y a pas autant de " .. lib .. " dans votre inventaire", "warning"})
+        end
+    end
+end
+
+function AddItem(arg)
+    local id = tonumber(arg[1])
+    local lib = arg[2]
+    local qtymax = arg[3]
+    local vehFront = VehicleInFront()
+    if vehFront > 0 then
+        local qty = DisplayInput()
+        if (type(qty) ~= "number") then
+            TriggerEvent("NUI-Notification", {"Veuillez saisir un nombre correct.", "warning"})
+            return false
+        end
+        if tonumber(qty) <= tonumber(qtymax) and tonumber(qty) > -1 then
+            TriggerServerEvent("GTA_Coffre:receiveItem", GetVehicleClass(vehFront), GetVehicleNumberPlateText(vehFront), id, lib, tonumber(qty))
+        else
+            TriggerEvent("NUI-Notification", {"Il n'y a pas autant de " .. lib .. " dans le coffre", "warning"})
+        end
+    end
+end
+
+
+function VehicleInFront()
+    local pos = GetEntityCoords(GetPlayerPed(-1))
+    local entityWorld = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0.0, 3.0, 0.0)
+    local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, GetPlayerPed(-1), 0)
+    local a, b, c, d, result = GetRaycastResult(rayHandle)
+    return result
+end
+
+
+function DisplayInput()
+    DisplayOnscreenKeyboard(1, "FMMC_MPM_TYP8", "", "", "", "", "", 30)
+    while UpdateOnscreenKeyboard() == 0 do
+        DisableAllControlActions(0)
+        Wait(1)
+    end
+    if GetOnscreenKeyboardResult() then
+        return tonumber(GetOnscreenKeyboardResult())
+    end
+end
+
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(5)
+        if (IsControlJustReleased(0, 38) or IsControlJustReleased(0, 214)) then --> E
+            local vehFront = VehicleInFront()
+            if vehFront > 0 then
+                lastPlate = vehFront
+                if (RageUI.Visible(mainMenuCoffre) == false) then 
+                    SetVehicleDoorOpen(lastPlate, 5, false, false)
+                    TriggerServerEvent("GTA_Coffre:RequestPlayerInventory")
+                    TriggerServerEvent("GTA_Coffre:RequestItemsCoffre", GetVehicleNumberPlateText(vehFront))
+                    Wait(125)
+                    RageUI.Visible(mainMenuCoffre, true)
+                    SetVehicleDoorShut(lastPlate, 5, false)
+                end
+            end
+        end
+    end
+end)
+
+
+
+
+--> Executer une fois la ressource restart : 
+AddEventHandler('onResourceStart', function(resourceName)
+    if (GetCurrentResourceName() ~= resourceName) then
+        return
+    end
+
+    TriggerServerEvent("GTA_Coffre:RequestPlayerInventory")
+end)
