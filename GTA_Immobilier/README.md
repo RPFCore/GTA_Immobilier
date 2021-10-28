@@ -9,15 +9,13 @@ WIP...
 ### Requirements
 * Ninja Source
   * [nCoreGTA](https://github.com/NinjaSourceV2/nCoreGTA)
-* ajoutez les lignes suivente dans le Config
-    ["Clef_1"] = {label = "Studio", weight = 1, type = "medical", prop = "prop_syringe_01"},
-    ["Clef_2"] = {label = "Appart", weight = 1, type = "medical", prop = "prop_syringe_01"},
-    ["Clef_3"] = {label = "Maison", weight = 1, type = "medical", prop = "prop_syringe_01"},
-
 
 ## Installation
 - Ajouté le dossier GTA_Immobilier dans vos resource, puis ajouté le a la liste de votre server.cfg.
-- Ajouté le Fichier SQL a votre base de donnée et profité.
+- Ajouté les clefs dans le Fichier Config
+    ["Clef_1"] = {label = "Studio", weight = 1, type = "medical", prop = "prop_syringe_01"},
+    ["Clef_2"] = {label = "Appart", weight = 1, type = "medical", prop = "prop_syringe_01"},
+    ["Clef_3"] = {label = "Maison", weight = 1, type = "medical", prop = "prop_syringe_01"},
 
 ## Features
 - RageUIV2
