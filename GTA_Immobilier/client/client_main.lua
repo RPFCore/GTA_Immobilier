@@ -158,48 +158,14 @@ Citizen.CreateThread(function ()
             local distanceZone2 = getDistance(playerLoc, hOut)
             local distanceZone1 = getDistance(playerLoc, hIn)
             local key = Config.Locations[home]["key"]
-
-            if distanceZone1 <= 15 then
-                Duree = 8
-                DrawMarker(25, hIn.x, hIn.y, hIn.z, 0, 0, 0, 0, 0, 0, 1.501, 1.5001, 0.5001, 20, 19,19, 0.5)
-            end
+            local clef = key["clef"]
             
             if distanceZone2 <= 15 then
                 Duree = 8
-                DrawMarker(25, hOut.x, hOut.y, hOut.z, 0, 0, 0, 0, 0, 0, 1.501, 1.5001, 0.5001, 20, 19,19, 0.5)        
+                DrawMarker(21, hOut.x, hOut.y, hOut.z, 0, 0, 0, 0, 0, 0, 1.501, 1.5001, 0.5001, 255, 255,255, 1.0)        
             end
 
-            if distanceZone1 < 1 then
-                Duree = 8
-
-                if GetLastInputMethod(0) then
-                    DisplayHelpAlert("~INPUT_PICKUP~ pour ~b~intéragir")
-                else
-                    DisplayHelpAlert("~INPUT_CELLPHONE_EXTRA_OPTION~ pour ~b~intéragir")
-                end
-
-                if (IsControlJustReleased(0, 38) or IsControlJustReleased(0, 214)) then  
-                  if (exports.nMenuPersonnel:getQuantity(key["clef"]) > 0) then
-                    if IsPedInAnyVehicle(player, true) then
-                        DoScreenFadeOut(5000)
-                        Wait(5000)
-                        SetEntityCoords(GetVehiclePedIsUsing(player), hOut["x"], hOut["y"], hOut["z"])
-                        SetEntityHeading(GetVehiclePedIsUsing(player), hOut["h"])
-                        Wait(5000)
-                        DoScreenFadeIn(5000)
-                    else
-                        DoScreenFadeOut(5000)
-                        Wait(5000)
-                        SetEntityCoords(player, hOut["x"], hOut["y"], hOut["z"])
-                        SetEntityHeading(player, hOut["h"]) 
-                        Wait(5000)
-                        DoScreenFadeIn(5000)    
-                    end
-                  else
-                  TriggerEvent("rpf:notify", "CHAR_DEVIN", 8, 41, "Achat Appartement", "Disponible !", "Tu doit avoir la clef,\nTrouve les ~b~agences immobiliere en ville~w~ pour acheter...")
-                end
-                end
-            elseif distanceZone2 < 1 then
+            if distanceZone2 < 1 then
                 Duree = 8
 
                 if GetLastInputMethod(0) then
@@ -210,19 +176,19 @@ Citizen.CreateThread(function ()
 
                 if (IsControlJustReleased(0, 38) or IsControlJustReleased(0, 214)) then 
                     if IsPedInAnyVehicle(player, true) then
-                        DoScreenFadeOut(5000)
-                        Wait(5000)
+                        DoScreenFadeOut(2000)
+                        Wait(2000)
                         SetEntityCoords(GetVehiclePedIsUsing(player),hIn["x"], hIn["y"], hIn["z"])
                         SetEntityHeading(GetVehiclePedIsUsing(player), hIn["h"])
-                        Wait(5000)
-                        DoScreenFadeIn(5000)    
+                        Wait(2000)
+                        DoScreenFadeIn(2000)    
                     else
-                        DoScreenFadeOut(5000)
-                        Wait(5000)
+                        DoScreenFadeOut(2000)
+                        Wait(2000)
                         SetEntityCoords(player, hIn["x"], hIn["y"], hIn["z"])
                         SetEntityHeading(player, hIn["h"])
-                        Wait(5000)
-                        DoScreenFadeIn(5000)    
+                        Wait(2000)
+                        DoScreenFadeIn(2000)    
                     end
                 end
             end
@@ -261,18 +227,3 @@ function DrawPopup(text)
     DrawNotification(0, 1)
 end
 
-Citizen.CreateThread(function()
-
-for shop = 1, #Config.Locations do
-local home = Config.Locations[shop]["homeIn"]
-            local blip = AddBlipForCoord(home["x"], home["y"], home["z"])
-            SetBlipSprite(blip, 375)
-            SetBlipDisplay(blip, 4)
-            SetBlipScale(blip, 0.5)
-            SetBlipColour(blip, 24)
-            SetBlipAsShortRange(blip, true)
-            BeginTextCommandSetBlipName("STRING")
-            AddTextComponentString("Logement Libre")
-            EndTextCommandSetBlipName(blip)
-    end
-end)

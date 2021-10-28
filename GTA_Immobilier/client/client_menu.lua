@@ -1,7 +1,7 @@
-mainMenu = RageUI.CreateMenu("Agence Immo",  "Cindy pour vous servir !")
-local subStudio =  RageUI.CreateSubMenu(mainMenu, "Studio", "Les premiers prix !")
-local subAppart =  RageUI.CreateSubMenu(mainMenu, "Appart", "De beau appartement déjà !")
-local subMaison =  RageUI.CreateSubMenu(mainMenu, "Maison", "Pour les villa de Luxe !")
+ImmoMenu = RageUI.CreateMenu("Habitation",  "Agent personnel")
+local subStudio =  RageUI.CreateSubMenu(ImmoMenu, "Studio", "Les premiers prix !")
+local subAppart =  RageUI.CreateSubMenu(ImmoMenu, "Appart", "De beau appartement déjà !")
+local subMaison =  RageUI.CreateSubMenu(ImmoMenu, "Maison", "Pour les villa de Luxe !")
 local prix = nil
 local itemName = " "
 local Duree = 0
@@ -22,16 +22,44 @@ local function SetDestinationCoordsLogemment(pos)
    end
 end
 
+RegisterNetEvent("RPF:Ok")
+AddEventHandler("RPF:Ok", function(clef, visit, Num)
+
+        for Shop=Num, #Config.Locations do
+
+        local player = GetPlayerPed()
+        local playerLoc = GetEntityCoords(player)
+
+
+                    if IsPedInAnyVehicle(player, true) then
+                        DoScreenFadeOut(5000)
+                        Wait(5000)
+                        SetEntityCoords(GetVehiclePedIsUsing(player), hIn["x"], hIn["y"], hIn["z"])
+                        SetEntityHeading(GetVehiclePedIsUsing(player), hIn["h"])
+                        Wait(5000)
+                        DoScreenFadeIn(5000)    
+                    else
+                        DoScreenFadeOut(2000)
+                        Wait(2000)
+                        SetEntityCoords(player, visit["x"],visit["y"],visit["z"])
+                        SetEntityHeading(player, visit["h"])
+                        Wait(2000)
+                        DoScreenFadeIn(2000)    
+                    end
+        end
+end)
+
 Citizen.CreateThread(function()
     while (true) do
-        RageUI.IsVisible(mainMenu, function()
-            RageUI.Button('Studio', "Petit appartement", {}, true, {}, subStudio);
-            RageUI.Button('Appart', "Appartement de luxe", {}, true, {}, subAppart);
-            RageUI.Button('Maison', "Maison de luxe", {}, true, {}, subMaison);
+        RageUI.IsVisible(ImmoMenu, function()
+            RageUI.Button('Studio', "Acheter ou entrer dans votre logement. Vous pourrez en suite avoir acces a votre coffre, vestiaire et garage.", {}, true, {}, subStudio);
+            RageUI.Button('Appart', "Acheter ou entrer dans votre logement. Vous pourrez en suite avoir acces a votre coffre, vestiaire et garage.", {}, true, {}, subAppart);
+            RageUI.Button('Maison', "Acheter ou entrer dans votre logement. Vous pourrez en suite avoir acces a votre coffre, vestiaire et garage.", {}, true, {}, subMaison);
         end, function()end)
 
         --> SubMenu studio : 
         RageUI.IsVisible(subStudio, function()
+            local Num = 1
             for shop = 1, #Config.Locations do
                 local item = Config.Locations[shop]["clefs"]
                 local visit = Config.Locations[shop]["homeOut"]
@@ -39,6 +67,8 @@ Citizen.CreateThread(function()
                 local plyCoords = GetEntityCoords(GetPlayerPed(-1), false)
                 local dist = GetDistanceBetweenCoords(plyCoords, sPed["x"], sPed["y"], sPed["z"], true)
                 local player = GetPlayerPed(-1)
+                local key = Config.Locations[shop]["key"]
+                local clef = key["clef"]
 
                 if dist <= 6.0 then
                     Duree = 0
@@ -62,13 +92,9 @@ Citizen.CreateThread(function()
                             SetDestinationCoordsLogemment(pos)
 
                         end}); 
-                        RageUI.Button("Visiter", "Visiter le logement", {""}, true, { 
+                        RageUI.Button("Entre", "Entre dans le logement", {""}, true, { 
                         onSelected = function()
-                        DoScreenFadeOut(5000)
-                        Wait(5000)
-                        SetEntityCoords(player, visit.x, visit.y, visit.z)
-                        Wait(5000)
-                        DoScreenFadeIn(5000)
+                        TriggerServerEvent("RPF:AskEnter", clef, visit, Num)
                         RageUI.CloseAll()
                         end});
                     end
@@ -78,6 +104,7 @@ Citizen.CreateThread(function()
 
         --> SubMenu appart : 
         RageUI.IsVisible(subAppart, function()
+            local Num = 2
             for shop = 2, #Config.Locations do
                 local item = Config.Locations[shop]["clefs"]
                 local visit = Config.Locations[shop]["homeOut"]
@@ -85,6 +112,8 @@ Citizen.CreateThread(function()
                 local plyCoords = GetEntityCoords(GetPlayerPed(-1), false)
                 local dist = GetDistanceBetweenCoords(plyCoords, sPed["x"], sPed["y"], sPed["z"], true)
                 local player = GetPlayerPed(-1)
+                local key = Config.Locations[shop]["key"]
+                local clef = key["clef"]
 
                 if dist <= 5.0 then
                     for _, v in pairs(item.itemNameAppart) do
@@ -110,11 +139,7 @@ Citizen.CreateThread(function()
                         end});
                         RageUI.Button("Visiter", "Visiter le logement", {""}, true, { 
                         onSelected = function()
-                        DoScreenFadeOut(5000)
-                        Wait(5000)
-                        SetEntityCoords(player, visit.x, visit.y, visit.z)
-                        Wait(5000)
-                        DoScreenFadeIn(5000)
+                        TriggerServerEvent("RPF:AskEnter", clef, visit, Num)
                         RageUI.CloseAll()
                         end});
                     end
@@ -124,6 +149,7 @@ Citizen.CreateThread(function()
 
         --> SubMenu Maison : 
         RageUI.IsVisible(subMaison, function()
+            local Num = 3
             for shop = 3, #Config.Locations do
                 local item = Config.Locations[shop]["clefs"]
                 local visit = Config.Locations[shop]["homeOut"]
@@ -131,6 +157,8 @@ Citizen.CreateThread(function()
                 local plyCoords = GetEntityCoords(GetPlayerPed(-1), false)
                 local dist = GetDistanceBetweenCoords(plyCoords, sPed["x"], sPed["y"], sPed["z"], true)
                 local player = GetPlayerPed(-1)
+                local key = Config.Locations[shop]["key"]
+                local clef = key["clef"]
 
                 if dist <= 5.0 then
                     for _, v in pairs(item.itemNameMaison) do
@@ -156,11 +184,7 @@ Citizen.CreateThread(function()
                         end});
                         RageUI.Button("Visiter", "Visiter le logement", {""}, true, { 
                         onSelected = function()
-                        DoScreenFadeOut(5000)
-                        Wait(5000)
-                        SetEntityCoords(player, visit.x, visit.y, visit.z)
-                        Wait(5000)
-                        DoScreenFadeIn(5000)
+                        TriggerServerEvent("RPF:AskEnter", clef, visit, Num)
                         RageUI.CloseAll()
                         end});
                     end
@@ -188,12 +212,12 @@ Citizen.CreateThread(function()
                 end
            
                if (IsControlJustReleased(0, 38) or IsControlJustReleased(0, 214)) then 
-                    RageUI.Visible(mainMenu, not RageUI.Visible(mainMenu))
+                    RageUI.Visible(ImmoMenu, not RageUI.Visible(ImmoMenu))
                end
             end
         end
 
-        if RageUI.Visible(mainMenu) or RageUI.Visible(subFood) or RageUI.Visible(subBoissons) or RageUI.Visible(subMutlimedia) == true then 
+        if RageUI.Visible(ImmoMenu) or RageUI.Visible(subFood) or RageUI.Visible(subBoissons) or RageUI.Visible(subMutlimedia) == true then 
             DisableControlAction(0, 140, true) --> DESACTIVER LA TOUCHE POUR PUNCH
             DisableControlAction(0, 172,true) --DESACTIVE CONTROLL HAUT  
         end

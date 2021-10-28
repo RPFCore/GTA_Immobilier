@@ -9,7 +9,10 @@ WIP...
 ### Requirements
 * Ninja Source
   * [nCoreGTA](https://github.com/NinjaSourceV2/nCoreGTA)
-* GTA_Apparts
+* ajoutez les lignes suivente dans le Config
+    ["Clef_1"] = {label = "Studio", weight = 1, type = "medical", prop = "prop_syringe_01"},
+    ["Clef_2"] = {label = "Appart", weight = 1, type = "medical", prop = "prop_syringe_01"},
+    ["Clef_3"] = {label = "Maison", weight = 1, type = "medical", prop = "prop_syringe_01"},
 
 
 ## Installation
@@ -22,7 +25,7 @@ WIP...
 
 
 ## Tuto
-- Tout se trouve dans le fichier config.lua vous pourrez modifier les items, prix, position des superette.
+- Tout se trouve dans le fichier config.lua vous pourrez modifier les items, prix, position des agences
 
 ```
     ensure GTA_Immobilier

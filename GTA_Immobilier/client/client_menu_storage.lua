@@ -32,46 +32,39 @@ AddEventHandler("GTA_Coffre:GetInventoryTrunk", function(items)
 end)
 
 
---MENU :
-
-local deposerMenu = RageUI.CreateSubMenu(mainStockage, "Déposer", "Items: " .. (getPods()) .. "/" .. 100)
-mainStockage = RageUI.CreateMenu("Stockage", "Coffre habitation.")
+mainStockage = RageUI.CreateMenu("Habitation", "Coffre de Stockage.")
+local subStockage =  RageUI.CreateSubMenu(mainStockage, "Petit", "Petit coffre 100$")
+local subStockage1 =  RageUI.CreateSubMenu(mainStockage, "Grande", "Grande coffre 1000$")
 
 local index = 1
 local secondIndex = 1
---> Main Menu :
+
+--MENU :
 function OnMenuStockage()
+
     RageUI.IsVisible(mainStockage, function()
-        RageUI.Button("Vérifier le stock", "", {}, true, {onSelected = function() end}, subStockage)
-    end, function()end)
+        RageUI.Button("Petit coffre", "Vous pouvez en suite le retrouver dans votre inventaire et l'~g~UTILISER~w~ pour le palcer ou vous le souhaitez...", {}, true, {onSelected = function() end}, subStockage)
+        RageUI.Button("Grand coffre", "Vous pouvez en suite le retrouver dans votre inventaire et l'~g~UTILISER~w~ pour le palcer ou vous le souhaitez...", {}, true, {onSelected = function() end}, subStockage1)
+    end, function()end) 
 
-
-    RageUI.IsVisible(deposerMenu, function()
-         for k, v in pairs(CARITEMS) do 
-            local arg = {k, v.libelle, v.quantity }
-            if (v.quantity > 0) then
-                    RageUI.Button("~b~"..v.libelle.. " ~g~" .. RoundNumber(v.quantity), "", {}, true, {onSelected = function()
-                        RemoveItem(arg)
-                        RageUI.CloseAll(true)
-                    end})
-                end
-
-        end
-    end, function()end)
-
-     RageUI.IsVisible(subStockage, function()
-            for k, v in pairs(PLAYTEMS) do 
-                local arg = {k, v.libelle, v.quantity }
-
-                if (v.quantity > 0) then
-                    RageUI.Button("~b~"..v.libelle.. " ~g~" .. RoundNumber(v.quantity), "", {}, true, {onSelected = function()
-                        AddItem(arg)
-                        RageUI.CloseAll(true)
-                    end})
-                end
-            end
-        end, function()end)
+    RageUI.IsVisible(subStockage, function()
+        RageUI.Button("Petit", "- Prix du petit coffres ~y~100~w~$\n- Il dispose de ~y~100~w~kg de stockage\nVous pouvez en suite le retrouver dans votre inventaire et l'~g~UTILISER~w~ pour le palcer ou vous le souhaitez sur la map...\nVous pouvez le ~b~RENOMER~w~ et mettre un code de securité pour que personne ne puisse avoir acces ! ", "", true, { 
+                        onSelected = function()
+                        TriggerServerEvent("GTASuperette:RecevoirItem", 1, "coffre", 100)
+           RageUI.CloseAll(true)
+           end});
+        end, function() 
+    end)
+    RageUI.IsVisible(subStockage1, function()
+        RageUI.Button("Grande", "- Prix du petit coffres ~y~1000~w~$\n- il dispose de ~y~1000~w~kg de stockage\nVous pouvez en suite le retrouver dans votre inventaire et l'~g~UTILISER~w~ pour le palcer ou vous le souhaitez sur la map...\nVous pouvez le ~b~RENOMER~w~ et mettre un code de securité pour que personne ne puisse avoir acces !", "", true, { 
+                        onSelected = function()
+                        TriggerServerEvent("GTASuperette:RecevoirItem", 1, "grand_coffre", 1000)
+           RageUI.CloseAll(true)
+           end});
+        end, function() 
+    end)
 end
+
 
 
 Citizen.CreateThread(function()

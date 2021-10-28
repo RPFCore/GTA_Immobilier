@@ -3,6 +3,8 @@
 fx_version 'cerulean'
 game 'gta5'
 
+dependency 'nCoreGTA'
+
 name 'RageUI';
 description 'RageUI, and a project specially created to replace the NativeUILua-Reloaded library. This library allows to create menus similar to the one of Grand Theft Auto online.'
 
@@ -24,4 +26,4 @@ client_scripts {
 }
 
 server_script '@mysql-async/lib/MySQL.lua'
-server_script 'server/server.lua'
+server_script 'server/server_main.lua'
