@@ -109,9 +109,9 @@ Citizen.CreateThread(function()
         local blip = Config.Locations[shop]["sPed"]
         blip = AddBlipForCoord(blip["x"], blip["y"], blip["z"])
 
-        SetBlipSprite(blip, 476)
-        SetBlipDisplay(blip, 4)
-        SetBlipScale(blip, 0.9)
+        SetBlipSprite(blip, 492)
+        SetBlipDisplay(blip, 43)
+        SetBlipScale(blip, 0.6)
       --  SetBlipColour(blip, 24)
         SetBlipAsShortRange(blip, true)
         BeginTextCommandSetBlipName("STRING")
@@ -141,6 +141,36 @@ local function DisplayHelpAlert(msg)
     BeginTextCommandDisplayHelp("STRING");  
     AddTextComponentSubstringPlayerName(msg);  
     EndTextCommandDisplayHelp(0, 0, 1, -1);
+end
+
+RegisterNetEvent("rpf:notify")
+AddEventHandler("rpf:notify", function(icon, type, color, sender, title, text)
+    Citizen.InvokeNative(0x92F0DA1E27DB96DC, tonumber(color))
+    SetNotificationTextEntry("STRING")
+    AddTextComponentString(text)
+    SetNotificationMessage(icon, icon, true, type, sender, title, text)
+    DrawNotification(false, true)
+
+    PlaySoundFrontend(GetSoundId(), "Text_Arrive_Tone", "Phone_SoundSet_Default", true)
+end)
+
+RegisterNetEvent("rpf:displayHelp")
+    AddEventHandler("rpf:displayHelp", function(text)
+     BeginTextCommandDisplayHelp("STRING")
+     AddTextComponentScaleform(text)
+     EndTextCommandDisplayHelp(0, 0, 1, -1)
+end)  
+
+RegisterNetEvent("rpf:displayPopup")
+AddEventHandler("rpf:displayPopup", function(text)
+    DrawPopup(text)
+end)
+
+function DrawPopup(text)
+    ClearPrints()
+    SetNotificationTextEntry("STRING")
+    AddTextComponentString(text)
+    DrawNotification(0, 1)
 end
 
 Citizen.CreateThread(function ()
@@ -175,6 +205,9 @@ Citizen.CreateThread(function ()
                 end
 
                 if (IsControlJustReleased(0, 38) or IsControlJustReleased(0, 214)) then 
+                    TriggerEvent('instance:leave')
+                    Wait(2000)
+                    TriggerEvent('instance:close')
                     if IsPedInAnyVehicle(player, true) then
                         DoScreenFadeOut(2000)
                         Wait(2000)
@@ -196,34 +229,3 @@ Citizen.CreateThread(function ()
         Citizen.Wait(Duree)
     end
 end)
-
-RegisterNetEvent("rpf:notify")
-AddEventHandler("rpf:notify", function(icon, type, color, sender, title, text)
-    Citizen.InvokeNative(0x92F0DA1E27DB96DC, tonumber(color))
-    SetNotificationTextEntry("STRING")
-    AddTextComponentString(text)
-    SetNotificationMessage(icon, icon, true, type, sender, title, text)
-    DrawNotification(false, true)
-
-    PlaySoundFrontend(GetSoundId(), "Text_Arrive_Tone", "Phone_SoundSet_Default", true)
-end)
-
-RegisterNetEvent("rpf:displayHelp")
-    AddEventHandler("rpf:displayHelp", function(text)
-     BeginTextCommandDisplayHelp("STRING")
-     AddTextComponentScaleform(text)
-     EndTextCommandDisplayHelp(0, 0, 1, -1)
-end)  
-
-RegisterNetEvent("rpf:displayPopup")
-AddEventHandler("rpf:displayPopup", function(text)
-    DrawPopup(text)
-end)
-
-function DrawPopup(text)
-    ClearPrints()
-    SetNotificationTextEntry("STRING")
-    AddTextComponentString(text)
-    DrawNotification(0, 1)
-end
-

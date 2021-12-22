@@ -16,6 +16,7 @@ AddEventHandler("RPF:AskEnter", function(clef, visit, Num)
 end)
 
 
+
 RegisterServerEvent("GTASuperette:RecevoirItem")
 AddEventHandler("GTASuperette:RecevoirItem", function(quantityItems, nameItem, prixItem)
 	local source = source
@@ -28,6 +29,7 @@ AddEventHandler("GTASuperette:RecevoirItem", function(quantityItems, nameItem, p
 			TriggerClientEvent("GTASuperette:Achat", source, quantityItems, nameItem)
 			TriggerClientEvent('nMenuNotif:showNotification', source, " + "..quantityItems .. " ".. nameItem)
 			TriggerEvent('GTA:RetirerArgentPropre', source, tonumber(prixTotal))
+           -- TriggerEvent("player:receiveItem", nameItem, tonumber(quantityItems))
 		else
 			TriggerClientEvent('GTASuperette:AchatFail', source)
 			TriggerClientEvent('GTA_NUI_ShowNotif_client', source, "~r~Tu n'as pas suffisamment d'argent !")

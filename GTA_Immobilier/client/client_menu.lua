@@ -6,6 +6,15 @@ local prix = nil
 local itemName = " "
 local Duree = 0
 
+TriggerEvent('instance:registerType', 'appart')
+
+RegisterNetEvent('instance:onCreate')
+AddEventHandler('instance:onCreate', function(instance)
+    if instance.type == 1 then
+        TriggerEvent('instance:enter', instance)
+    end
+end)
+
 local function SetDestinationCoordsLogemment(pos)
   for shop = 1, #Config.Locations do
         local item = Config.Locations[shop]["clefs"]
@@ -29,8 +38,9 @@ AddEventHandler("RPF:Ok", function(clef, visit, Num)
 
         local player = GetPlayerPed()
         local playerLoc = GetEntityCoords(player)
+        local appart = player
 
-
+                    TriggerEvent('instance:create', 'appart')
                     if IsPedInAnyVehicle(player, true) then
                         DoScreenFadeOut(5000)
                         Wait(5000)
@@ -89,9 +99,8 @@ Citizen.CreateThread(function()
                                 return nil
                             end
                             TriggerServerEvent("GTASuperette:RecevoirItem", quantityItems, itemName, prix)
-                            SetDestinationCoordsLogemment(pos)
-
                         end}); 
+
                         RageUI.Button("Entre", "Entre dans le logement", {""}, true, { 
                         onSelected = function()
                         TriggerServerEvent("RPF:AskEnter", clef, visit, Num)
@@ -137,7 +146,7 @@ Citizen.CreateThread(function()
                             SetDestinationCoordsLogemment(pos)
 
                         end});
-                        RageUI.Button("Visiter", "Visiter le logement", {""}, true, { 
+                        RageUI.Button("Entre", "Entre dans le logement", {""}, true, { 
                         onSelected = function()
                         TriggerServerEvent("RPF:AskEnter", clef, visit, Num)
                         RageUI.CloseAll()
@@ -179,10 +188,8 @@ Citizen.CreateThread(function()
                             end
 
                             TriggerServerEvent("GTASuperette:RecevoirItem", quantityItems, itemName, prix)
-                            SetDestinationCoordsLogemment(pos)
-
                         end});
-                        RageUI.Button("Visiter", "Visiter le logement", {""}, true, { 
+                        RageUI.Button("Entre", "Entre dans le logement", {""}, true, { 
                         onSelected = function()
                         TriggerServerEvent("RPF:AskEnter", clef, visit, Num)
                         RageUI.CloseAll()
@@ -223,4 +230,17 @@ Citizen.CreateThread(function()
         end
        Citizen.Wait(Duree)
    end
-end) 
+end)
+
+local square = math.sqrt
+
+local function getDistance(a, b) 
+    local x, y, z = a.x-b.x, a.y-b.y, a.z-b.z
+    return square(x*x+y*y+z*z)
+end
+
+local function DisplayHelpAlert(msg)
+    BeginTextCommandDisplayHelp("STRING");  
+    AddTextComponentSubstringPlayerName(msg);  
+    EndTextCommandDisplayHelp(0, 0, 1, -1);
+end
